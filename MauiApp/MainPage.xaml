@@ -28,6 +28,7 @@
                 FontSize="18"
                 HorizontalOptions="Center" />
 
+            <!-- Note that we added the AutomationId attribute -->
             <Button
                 x:Name="CounterBtn"
                 AutomationId="CounterBtn"
