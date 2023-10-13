@@ -4,7 +4,8 @@ using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.iOS;
 using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Appium.Service;
-using OpenQA.Selenium.Appium.Service.Options;
+using OpenQA.Selenium.Appium.Mac;
+using OpenQA.Selenium.Appium.Enums;
 
 namespace UITests;
 
@@ -12,10 +13,14 @@ namespace UITests;
 [TestFixture(TargetPlatform.iOS)]
 [TestFixture(TargetPlatform.Android)]
 [TestFixture(TargetPlatform.Windows)]
+[TestFixture(TargetPlatform.macOS)]
 public abstract class BaseTest
 {
-    private const string AndroidApkPath = @"C:\Users\joverslu\source\repos\BasicAppiumSample\MauiApp\bin\Debug\net7.0-android\com.companyname.basicappiumsample.apk";
+    private const string androidApkPath = @"C:\Users\joverslu\source\repos\BasicAppiumSample\MauiApp\bin\Debug\net7.0-android\com.companyname.basicappiumsample.apk";
     private const string iOSIpaPath = "";
+    private const string macOSAppPath = "/Users/jfversluis/Documents/GitHub/BasicAppiumSample/MauiApp/bin/Debug/net7.0-maccatalyst/maccatalyst-x64/BasicAppiumSample.app";
+    private const string macOSBundleId = "com.companyname.basicappiumsample";
+    private const string windowsAppId = "com.companyname.basicappiumsample_9zz4h110yvjzm!App";
 
     private readonly Uri appiumServerUri = new("http://127.0.0.1:4723");
     private AppiumLocalService? appiumLocalService;
@@ -79,6 +84,7 @@ public abstract class BaseTest
         {
             TargetPlatform.iOS => new IOSDriver(appiumService, GetOptions(platform), TimeSpan.FromSeconds(180)),
             TargetPlatform.Android => new AndroidDriver(appiumService, GetOptions(platform), TimeSpan.FromSeconds(180)),
+            TargetPlatform.macOS => new MacDriver(appiumService, GetOptions(platform), TimeSpan.FromSeconds(180)),
             TargetPlatform.Windows => new WindowsDriver(appiumService, GetOptions(platform), TimeSpan.FromSeconds(180)),
             _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
         };
@@ -90,6 +96,7 @@ public abstract class BaseTest
         {
             TargetPlatform.iOS => GetiOSOptions(),
             TargetPlatform.Android => GetAndroidOptions(),
+            TargetPlatform.macOS => GetMacOptions(),
             TargetPlatform.Windows => GetWindowsOptions(),
             _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
         };
@@ -108,7 +115,7 @@ public abstract class BaseTest
             // Don't specify if you don't want a specific device
             DeviceName = "iPhone 14 Pro Max",
             // The full path to the .app file to test or the bundle id if the app is already installed on the device
-            App = iOSIpaPath
+            App = iOSIpaPath,
         };
 
         return iOSOptions;
@@ -126,7 +133,7 @@ public abstract class BaseTest
             // This is ignored if you use the avd option below
             PlatformVersion = "13",
             // The full path to the .apk file to test or the package name if the app is already installed on the device
-            App = AndroidApkPath
+            App = androidApkPath,
         };
 
         // Specifying the avd option will boot the emulator for you
@@ -135,6 +142,24 @@ public abstract class BaseTest
         //androidOptions.AddAdditionalAppiumOption("avd", "pixel_5_-_api_33");
 
         return androidOptions;
+    }
+
+    static AppiumOptions GetMacOptions()
+    {
+        var macOptions = new AppiumOptions
+        {
+            // Specify mac2 as the driver, typically don't need to change this
+            AutomationName = "mac2",
+            // Always Mac for Mac
+            PlatformName = "Mac",
+            // The full path to the .app file to test
+            App = macOSAppPath,
+        };
+
+        // Setting the Bundle ID is required, else the automation will run on Finder
+        macOptions.AddAdditionalAppiumOption(IOSMobileCapabilityType.BundleId, macOSBundleId);
+
+        return macOptions;
     }
 
     static AppiumOptions GetWindowsOptions()
@@ -146,7 +171,7 @@ public abstract class BaseTest
             // Always Windows for Windows
             PlatformName = "Windows",
             // The identifier of the deployed application to test
-            App = "com.companyname.basicappiumsample_9zz4h110yvjzm!App"
+            App = windowsAppId,
         };
 
         return windowsOptions;

@@ -4,6 +4,6 @@ public enum TargetPlatform
 {
     Android,
     iOS,
-    //macOS,
+    macOS,
     Windows,
 }
