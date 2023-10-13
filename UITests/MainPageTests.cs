@@ -21,7 +21,7 @@ public class MainPageTests : BaseTest
     {
         // Arrange
         // Find elements with the value of the AutomationId property
-        var element = App.FindElement(MobileBy.Id("CounterBtn"));
+        var element = FindUIElement("CounterBtn");
 
         // Act
         element.Click();

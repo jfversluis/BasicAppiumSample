@@ -2,14 +2,16 @@
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium.iOS;
-//using OpenQA.Selenium.Appium.Windows;
+using OpenQA.Selenium.Appium.Windows;
 using OpenQA.Selenium.Appium.Service;
+using OpenQA.Selenium.Appium.Service.Options;
 
 namespace UITests;
 
 [SetUpFixture]
 [TestFixture(TargetPlatform.iOS)]
 [TestFixture(TargetPlatform.Android)]
+[TestFixture(TargetPlatform.Windows)]
 public abstract class BaseTest
 {
     private const string AndroidApkPath = @"C:\Users\joverslu\source\repos\BasicAppiumSample\MauiApp\bin\Debug\net7.0-android\com.companyname.basicappiumsample.apk";
@@ -46,7 +48,7 @@ public abstract class BaseTest
         appiumLocalService = builder.Build();
         appiumLocalService.Start();
 
-        driver = GetDriver(platform, appiumServerUri);
+        driver = GetDriver(platform, appiumLocalService);
     }
 
     [OneTimeTearDown]
@@ -56,13 +58,28 @@ public abstract class BaseTest
         appiumLocalService?.Dispose();
     }
 
-    static AppiumDriver GetDriver(TargetPlatform platform, Uri uri)
+    protected AppiumElement FindUIElement(string id)
+    {
+        if (OperatingSystem.IsWindows())
+        {
+            return App.FindElement(MobileBy.AccessibilityId(id));
+        }
+
+        if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
+        {
+            return App.FindElement(MobileBy.Id(id));
+        }
+
+        throw new PlatformNotSupportedException();
+    }
+
+    static AppiumDriver GetDriver(TargetPlatform platform, AppiumLocalService appiumService)
     {
         return platform switch
         {
-            TargetPlatform.iOS => new IOSDriver(uri, GetOptions(platform), TimeSpan.FromSeconds(180)),
-            TargetPlatform.Android => new AndroidDriver(uri, GetOptions(platform), TimeSpan.FromSeconds(180)),
-            //TargetPlatform.Windows => new WindowsDriver(uri, GetOptions(platform), TimeSpan.FromSeconds(180)),
+            TargetPlatform.iOS => new IOSDriver(appiumService, GetOptions(platform), TimeSpan.FromSeconds(180)),
+            TargetPlatform.Android => new AndroidDriver(appiumService, GetOptions(platform), TimeSpan.FromSeconds(180)),
+            TargetPlatform.Windows => new WindowsDriver(appiumService, GetOptions(platform), TimeSpan.FromSeconds(180)),
             _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
         };
     }
@@ -73,7 +90,7 @@ public abstract class BaseTest
         {
             TargetPlatform.iOS => GetiOSOptions(),
             TargetPlatform.Android => GetAndroidOptions(),
-            //TargetPlatform.Windows => GetWindowsOptions(),
+            TargetPlatform.Windows => GetWindowsOptions(),
             _ => throw new ArgumentOutOfRangeException(nameof(platform), platform, null)
         };
     }
@@ -120,17 +137,18 @@ public abstract class BaseTest
         return androidOptions;
     }
 
-    //static AppiumOptions GetWindowsOptions()
-    //{
-    //    var windowsOptions = new AppiumOptions
-    //    {
-    //        PlatformName = "Windows",
-    //        AutomationName = "windows",
-    //        App = "com.companyname.basicappiumsample_9zz4h110yvjzm!App"
-    //    };
+    static AppiumOptions GetWindowsOptions()
+    {
+        var windowsOptions = new AppiumOptions
+        {
+            // Specify windows as the driver, typically don't need to change this
+            AutomationName = "windows",
+            // Always Windows for Windows
+            PlatformName = "Windows",
+            // The identifier of the deployed application to test
+            App = "com.companyname.basicappiumsample_9zz4h110yvjzm!App"
+        };
 
-    //    windowsOptions.AddAdditionalOption("app", "com.companyname.basicappiumsample_9zz4h110yvjzm!App");
-
-    //    return windowsOptions;
-    //}
+        return windowsOptions;
+    }
 }
