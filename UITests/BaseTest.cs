@@ -65,14 +65,15 @@ public abstract class BaseTest
 
     protected AppiumElement FindUIElement(string id)
     {
+        if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS()
+            || OperatingSystem.IsMacCatalyst() || OperatingSystem.IsMacOS())
+        {
+            return App.FindElement(MobileBy.Id(id));
+        }
+
         if (OperatingSystem.IsWindows())
         {
             return App.FindElement(MobileBy.AccessibilityId(id));
-        }
-
-        if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
-        {
-            return App.FindElement(MobileBy.Id(id));
         }
 
         throw new PlatformNotSupportedException();
