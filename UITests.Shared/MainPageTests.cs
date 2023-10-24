@@ -1,13 +1,23 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium.Appium;
+using OpenQA.Selenium;
 
-namespace UITests;
+namespace UITests.Shared;
 
-public class MainPageTests : BaseTest
+public class MainPageTests<T, W> : BaseTest<T, W>
+    where T : AppiumDriver<W>
+    where W : IWebElement
 {
-    public MainPageTests(TargetPlatform platform)
-        : base(platform)
+    // Throw exception here, this is implemented by the platform specific class
+    protected override AppiumOptions GetAppiumOptions()
     {
+        throw new NotImplementedException();
+    }
+
+    // Throw exception here, this is implemented by the platform specific class
+    protected override T GetDriver()
+    {
+        throw new NotImplementedException();
     }
 
     [Test]
