@@ -18,4 +18,8 @@
 	<Compile Include="..\UITests.Shared\*.cs" LinkBase="Shared" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="..\UITests.Shared\TargetPlatform.cs" />
+  </ItemGroup>
+
 </Project>
