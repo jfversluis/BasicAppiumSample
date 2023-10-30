@@ -5,7 +5,7 @@
 // code files. This has to do with how we initialize the AppiumDriver
 // through the AppiumSetup.cs files and NUnit SetUpFixture attributes.
 // Also see: https://docs.nunit.org/articles/nunit/writing-tests/attributes/setupfixture.html
-namespace UITests.Shared;
+namespace UITests;
 
 // This is an example of tests that do not need anything platform specific
 public class MainPageTests : BaseTest

@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace UITests.Shared;
+namespace UITests;
 
 public class PlatformSpecificSampleTest : BaseTest
 {

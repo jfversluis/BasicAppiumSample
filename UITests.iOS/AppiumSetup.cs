@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.iOS;
 
-namespace UITests.Shared;
+namespace UITests;
 
 [SetUpFixture]
 public class AppiumSetup

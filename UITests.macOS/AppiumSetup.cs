@@ -3,7 +3,7 @@ using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Mac;
 using OpenQA.Selenium.Appium.Enums;
 
-namespace UITests.Shared;
+namespace UITests;
 
 [SetUpFixture]
 public class AppiumSetup

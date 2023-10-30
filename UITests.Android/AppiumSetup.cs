@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Appium.Android;
 using OpenQA.Selenium.Appium;
 
-namespace UITests.Shared;
+namespace UITests;
 
 [SetUpFixture]
 public class AppiumSetup

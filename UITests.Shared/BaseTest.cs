@@ -1,7 +1,7 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
 
-namespace UITests.Shared;
+namespace UITests;
 
 public abstract class BaseTest
 {
