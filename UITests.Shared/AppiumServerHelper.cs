@@ -21,9 +21,6 @@ public static class AppiumServerHelper
             .WithIPAddress(host)
             .UsingPort(port);
 
-        //builder.WithArguments(new OpenQA.Selenium.Appium.Service.Options.OptionCollector()
-        //.AddArguments(new KeyValuePair<string, string>("-–base-path", "/wd/hub")));
-
         // Start the server with the builder
         _appiumLocalService = builder.Build();
         _appiumLocalService.Start();
