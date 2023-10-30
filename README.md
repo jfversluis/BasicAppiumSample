@@ -1,6 +1,6 @@
 ---
-name: .NET MAUI - UI Testing with Appium
-description: Point of Sale application that demonstrates UI techniques for customizing a sidebar menu, tab bars, radio buttons, and more. The project features a desktop/tablet UI and a mobile UI.
+name: .NET MAUI - UI Testing with Appium and NUnit
+description: Sample solution that demonstrates how to setup your .NET MAUI app for UI testing with Appium and NUnit.
 page_type: sample
 languages:
 - csharp
