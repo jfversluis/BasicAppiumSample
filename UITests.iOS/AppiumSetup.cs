@@ -32,8 +32,6 @@ public class AppiumSetup
             App = "com.companyname.basicappiumsample",
         };
 
-        //optionsToReturn.AddAdditionalCapability($"appium:{IOSMobileCapabilityType.BundleId}", "com.companyname.basicappiumsample");
-
         // Note there are many more options that you can use to influence the app under test according to your needs
 
         driver = new IOSDriver(iOSOptions);
