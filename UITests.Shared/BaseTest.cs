@@ -1,9 +1,10 @@
 ﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.Windows;
+using Xunit;
 
 namespace UITests;
 
-public abstract class BaseTest
+public abstract class BaseTest : IClassFixture<AppiumSetup>
 {
 	protected AppiumDriver App => AppiumSetup.App;
 

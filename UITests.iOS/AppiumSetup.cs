@@ -1,19 +1,15 @@
-﻿using NUnit.Framework;
-
-using OpenQA.Selenium.Appium;
+﻿using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Appium.iOS;
 
 namespace UITests;
 
-[SetUpFixture]
-public class AppiumSetup
+public class AppiumSetup : IDisposable
 {
 	private static AppiumDriver? driver;
 
 	public static AppiumDriver App => driver ?? throw new NullReferenceException("AppiumDriver is null");
 
-	[OneTimeSetUp]
-	public void RunBeforeAnyTests()
+	public AppiumSetup()
 	{
 		// If you started an Appium server manually, make sure to comment out the next line
 		// This line starts a local Appium server for you as part of the test run
@@ -38,8 +34,7 @@ public class AppiumSetup
 		driver = new IOSDriver(iOSOptions);
 	}
 
-	[OneTimeTearDown]
-	public void RunAfterAnyTests()
+	public void Dispose()
 	{
 		driver?.Quit();
 

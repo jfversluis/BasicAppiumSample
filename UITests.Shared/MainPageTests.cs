@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+﻿using Xunit;
 
 // You will have to make sure that all the namespaces match
 // between the different platform specific projects and the shared
@@ -10,14 +10,14 @@ namespace UITests;
 // This is an example of tests that do not need anything platform specific
 public class MainPageTests : BaseTest
 {
-	[Test]
+	[Fact]
 	public void AppLaunches()
 	{
 		App.GetScreenshot().SaveAsFile($"{nameof(AppLaunches)}.png");
 	}
 
-	[Test]
-	public void ClickCounterTest()
+	[Fact]
+	public async void ClickCounterTest()
 	{
 		// Arrange
 		// Find elements with the value of the AutomationId property
@@ -25,10 +25,10 @@ public class MainPageTests : BaseTest
 
 		// Act
 		element.Click();
-		Task.Delay(500).Wait(); // Wait for the click to register and show up on the screenshot
+		await Task.Delay(500); // Wait for the click to register and show up on the screenshot
 
 		// Assert
 		App.GetScreenshot().SaveAsFile($"{nameof(ClickCounterTest)}.png");
-		Assert.That(element.Text, Is.EqualTo("Clicked 1 time"));
+		Assert.Equal("Clicked 1 time", element.Text);
 	}
 }
