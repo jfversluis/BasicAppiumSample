@@ -1,14 +1,6 @@
----
-name: .NET MAUI - UI Testing with Appium and NUnit
-description: Sample solution that demonstrates how to setup your .NET MAUI app for UI testing with Appium and NUnit.
-page_type: sample
-languages:
-- csharp
-- xaml
-products:
-- dotnet-maui
-urlFragment: uitest-appium
----
+Check out the sample on the official .NET Samples browser: https://learn.microsoft.com/samples/dotnet/maui-samples/uitest-appium-nunit/
+
+You can also use xUnit, which you can see on this branch: https://github.com/jfversluis/BasicAppiumSample/tree/xunit
 
 # UI Testing with Appium and .NET MAUI
 
